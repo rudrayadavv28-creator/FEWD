@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Selection | Bean Boutique</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">Bean Boutique</div>
+  <nav>
+    <a href="coffeehtml1.html">Home</a>
+    <a href="coffee.html">Coffee Selection</a>
+    <a href="brewing.html">Brewing Equipment</a>
+    <a href="shopping.html" class="cart-link">Shopping Cart <span id="cart-count" class="cart-count">0</span></a>
+    <a href="events.html">Events</a>
+    <a href="offer.html">Offers & Subs</a>
+  </nav>
+</header>
+
+<section class="hero" style="height:60vh;">
+  <div class="hero-content">
+    <h1>Coffee Selection</h1>
+    <p>Explore our handpicked blends & single-origin coffees</p>
+  </div>
+</section>
+
+<section>
+  <h2>Our Coffee Collection</h2>
+  <div class="features">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80" alt="House Blend">
+      <div class="card-content">
+        <h3>House Blend</h3>
+        <p><strong>Description:</strong> A smooth and balanced everyday coffee.</p>
+        <p><strong>Tasting Notes:</strong> Chocolate, caramel, nutty finish</p>
+        <p><strong>Best Brew:</strong> Drip coffee, French press</p>
+        <div class="price">€12.99</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80" alt="Ethiopian Single Origin">
+      <div class="card-content">
+        <h3>Ethiopian Single Origin</h3>
+        <p><strong>Description:</strong> Bright and aromatic African coffee.</p>
+        <p><strong>Tasting Notes:</strong> Citrus, floral, berry sweetness</p>
+        <p><strong>Best Brew:</strong> Pour-over, Chemex</p>
+        <div class="price">€18.99</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80" alt="Dark Roast">
+      <div class="card-content">
+        <h3>Dark Roast</h3>
+        <p><strong>Description:</strong> Bold and intense with deep flavors.</p>
+        <p><strong>Tasting Notes:</strong> Smoky, cocoa, spicy undertones</p>
+        <p><strong>Best Brew:</strong> Espresso, Moka pot</p>
+        <div class="price">€14.99</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&q=80" alt="Cold Brew Blend">
+      <div class="card-content">
+        <h3>Cold Brew Blend</h3>
+        <p><strong>Description:</strong> Crafted for long cold extractions.</p>
+        <p><strong>Tasting Notes:</strong> Smooth, low acidity, cocoa</p>
+        <p><strong>Best Brew:</strong> Cold brew, iced coffee</p>
+        <div class="price">€12.99</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Bean Boutique • Made with love & great beans</p>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", updateCartCount);
+
+  function updateCartCount() {
+    try {
+      let cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+      let countElement = document.getElementById('cart-count');
+      if (countElement) {
+        countElement.innerText = cart.length; 
+      }
+    } catch(e) {
+      localStorage.removeItem('beanBoutiqueCart');
+    }
+  }
+
+  function showFlashMessage(message, type = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toast-container';
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icon = type === 'success' ? '✅' : '⚠️';
+    toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+    
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400); 
+    }, 3500);
+  }
+
+  function addToCart(buttonElement) {
+    try {
+      let card = buttonElement.closest('.card') || buttonElement.closest('.sub-card');
+      if (!card) return; 
+
+      let titleElement = card.querySelector('h3');
+      let name = titleElement ? titleElement.innerText : "Specialty Item";
+      
+      let imgElement = card.querySelector('img');
+      let image = imgElement ? imgElement.src : "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=300";
+      
+      let priceElement = card.querySelector('.price');
+      let priceText = priceElement ? priceElement.innerText : "0"; 
+      let price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+
+      let cart;
+      try {
+        cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+      } catch(e) {
+        cart = []; 
+      }
+      
+      cart.push({ name: name, price: price, image: image });
+      localStorage.setItem('beanBoutiqueCart', JSON.stringify(cart));
+      
+      updateCartCount(); 
+      showFlashMessage(`<strong>${name}</strong> added to cart!`, 'success'); 
+
+    } catch (error) {
+      console.error("Cart Error:", error);
+      showFlashMessage("Sorry, we couldn't add that to the cart.", "error");
+    }
+  }
+
+  function buyNow(buttonElement) {
+    let card = buttonElement.closest('.card') || buttonElement.closest('.sub-card');
+    let titleElement = card ? card.querySelector('h3') : null;
+    let name = titleElement ? titleElement.innerText : "Item";
+    
+    showFlashMessage(`<strong>Success!</strong> Your ${name} is being processed.`, 'success');
+  }
+</script>
+
+</body>
+</html>

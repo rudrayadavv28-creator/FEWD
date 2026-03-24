@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Brewing Equipment | Bean Boutique</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+  
+<header>
+  <div class="logo">Bean Boutique</div>
+  <nav>
+    <a href="coffeehtml1.html">Home</a>
+    <a href="coffee.html">Coffee Selection</a>
+    <a href="brewing.html">Brewing Equipment</a>
+    <a href="shopping.html" class="cart-link">Shopping Cart <span id="cart-count" class="cart-count">0</span></a>
+    <a href="events.html">Events</a>
+    <a href="offer.html">Offers and subs</a>
+  </nav>
+</header>
+
+<section class="hero" style="height:60vh;">
+  <div class="hero-content">
+    <h1>Brewing Equipment</h1>
+    <p>Craft the perfect cup with professional-grade tools</p>
+  </div>
+</section>
+
+<section>
+  <h2>Our Brewing Tools</h2>
+
+  <div class="features">
+    <div class="card">
+      <img src="https://c8.alamy.com/comp/3CG7BR8/thai-coffee-shop-equipment-for-grinding-and-brewing-sukhumvit-bangkok-thailand-3CG7BR8.jpg" alt="coffee brewing">
+      <div class="card-content">
+        <h3>Espresso Machine</h3>
+        <p><strong>Description:</strong> Professional-grade machine for perfect espresso extraction.</p>
+        <div class="price">€700</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="images.png" alt="Compact Espresso Machine">
+      <div class="card-content">
+        <h3>Compact Espresso Machine</h3>
+        <p><strong>Description:</strong> Sleek and modern espresso machine for home use.</p>
+        <p><strong>Best For:</strong> Espresso shots, small kitchens</p>
+        <p><strong>Features:</strong> Space-saving design, quick heating system</p>
+        <div class="price">€450</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="Screenshot 2026-03-20 123223.png" alt="Professional Coffee Machine">
+      <div class="card-content">
+        <h3>Professional Barista Machine</h3>
+        <p><strong>Description:</strong> High-end machine with grinder for café-style coffee.</p>
+        <p><strong>Best For:</strong> Espresso, cappuccino, latte</p>
+        <p><strong>Features:</strong> Built-in grinder, pressure control, milk frother</p>
+        <div class="price">€1200</div>
+        
+        <div style="margin-top: 15px;">
+          <button class="btn" style="padding: 10px 15px; font-size: 14px;" onclick="addToCart(this)">Add to Cart</button>
+          <button class="btn" style="padding: 10px 15px; font-size: 14px; background: #6F4E37;" onclick="buyNow(this)">Buy Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // 1. Update the cart counter immediately when the page loads
+  document.addEventListener("DOMContentLoaded", updateCartCount);
+
+  function updateCartCount() {
+    try {
+      let cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+      let countElement = document.getElementById('cart-count');
+      if (countElement) {
+        countElement.innerText = cart.length; // Increments the red bubble!
+      }
+    } catch(e) {
+      localStorage.removeItem('beanBoutiqueCart');
+    }
+  }
+
+  // 2. Professional Flash Message Function (The Toast)
+  function showFlashMessage(message, type = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toast-container';
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icon = type === 'success' ? '✅' : '⚠️';
+    toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+    
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400); 
+    }, 3500);
+  }
+
+  // 3. BULLETPROOF Add to Cart Functionality
+  function addToCart(buttonElement) {
+    try {
+      let card = buttonElement.closest('.card') || buttonElement.closest('.sub-card');
+      if (!card) return; 
+
+      let titleElement = card.querySelector('h3');
+      let name = titleElement ? titleElement.innerText : "Specialty Item";
+      if (card.classList.contains('sub-card')) {
+          name += " (Subscription)";
+      }
+      
+      let imgElement = card.querySelector('img');
+      let image = imgElement ? imgElement.src : "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=300";
+      
+      let priceElement = card.querySelector('.price');
+      let priceText = priceElement ? priceElement.innerText : "0"; 
+      let price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+
+      let cart;
+      try {
+        cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+      } catch(e) {
+        cart = []; 
+      }
+      
+      cart.push({ name: name, price: price, image: image });
+      localStorage.setItem('beanBoutiqueCart', JSON.stringify(cart));
+      
+      updateCartCount(); // Instantly bumps up the number in the header
+      showFlashMessage(`<strong>${name}</strong> added to cart!`, 'success'); 
+
+    } catch (error) {
+      console.error("Cart Error:", error);
+      showFlashMessage("Sorry, we couldn't add that to the cart.", "error");
+    }
+  }
+
+  // 4. Bulletproof Buy Now Functionality
+  function buyNow(buttonElement) {
+    let card = buttonElement.closest('.card') || buttonElement.closest('.sub-card');
+    let titleElement = card ? card.querySelector('h3') : null;
+    let name = titleElement ? titleElement.innerText : "Item";
+    
+    showFlashMessage(`<strong>Success!</strong> Your ${name} is being processed.`, 'success');
+  }
+</script> 
+
+<footer>
+  <p>© 2026 Bean Boutique • Made with love & great beans</p>
+</footer>
+
+</body>
+</html>

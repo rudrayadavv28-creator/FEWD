@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Bean Boutique</title>
+    <link rel="stylesheet" href="page.css">
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="cup-container">
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="steam"></div>
+            <div class="cup"></div>
+            <div class="saucer"></div>
+        </div>
+        <div class="loading-text">Brewing...</div>
+    </div>
+
+    <header>
+        <div class="logo">Bean Boutique</div>
+        <nav> 
+            <a href="coffee.html">Coffee selection</a>
+            <a href="brewing.html">Brewing equipment</a>
+            <a href="shopping.html" class="cart-link">Shopping cart <span id="cart-count" class="cart-count">0</span></a>
+            <a href="events.html">Events</a>
+            <a href="offer.html">Offers and subs</a>
+            
+            <span id="auth-buttons">
+              <a href="#" onclick="openLoginPopup()" style="font-weight: bold; color: #E07A5F; border: 2px solid #E07A5F; padding: 6px 18px; border-radius: 25px; margin-left: 30px; transition: 0.3s;">👤 Login</a>
+            </span>
+            <a href="#" id="my-account-btn" style="display: none; font-weight: bold; color: #4CAF50; border: 2px solid #4CAF50; padding: 6px 18px; border-radius: 25px; margin-left: 30px; transition: 0.3s;" onclick="logout()">👤 Logout</a>
+        </nav>
+    </header>
+   
+<section class="hero">
+    <div class="hero-content">
+        <h1>Bean Boutique</h1>
+          <p>Handcrafted brews • Cosy vibes • Your daily escape in the heart of London</p>
+          <a href="#" class="btn">View point</a>
+          <a href="https://www.google.com/maps/place/London" class="btn btn-outline" target="_blank">Find Us</a>
+    </div>
+</section>
+
+<section>
+    <h2>Our Signature Drinks</h2>
+    <div class="features">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&q=80" alt="latte">
+            <div class="card-content">
+                <h3>Cream latte</h3>
+                 <p>Double espresso with velvety microfoam</p>
+            </div>
+        </div>
+    <div class="card">
+        <img src="https://plus.unsplash.com/premium_photo-1667621220863-3fa666433b5d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cG91ciUyMG92ZXIlMjBjb2ZmZWV8ZW58MHx8MHx8fDA%3D" alt="pour over">
+      <div class="card-content">
+        <h3>Pour Over</h3>
+        <p>Clean, vibrant, and perfectly extracted</p>
+      </div>
+    </div>
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80" alt="Cold Brew">
+        <div class="card-content">
+            <h3>Cold brew</h3>
+            <p>24-hour slow steep, smooth & bold</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <h2>Special Offer</h2>
+    <p>Get <strong>20% OFF</strong> on your first coffee order!</p>
+    <form id="promoForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="text" name="name" placeholder="Enter your name" required>
+      <input type="email" name="email" placeholder="Enter your email" required>
+      <button type="submit" class="register-btn" style="width: 100%; margin-top: 10px;">Claim Offer</button>
+    </form>
+    <p id="promoSuccessMsg" style="display:none; color:green; margin-top:10px;">✅ Check your email!</p>
+  </div>
+</div>
+
+<div id="loginPopup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closeLoginPopup()">×</span>
+    <h2>Welcome Back</h2>
+    <p>Log in to access your account.</p>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email Address" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit" class="register-btn" style="width: 100%; margin-top: 15px;">Secure Login</button>
+    </form>
+    <p style="margin-top: 20px; font-size: 14px; color: #555;">
+      New here? <a href="#" onclick="openRegisterPopup(); closeLoginPopup();" style="color: #E07A5F; font-weight: bold; text-decoration: none;">Create an account</a>
+    </p>
+  </div>
+</div>
+
+<div id="registerPopup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closeRegisterPopup()">×</span>
+    <h2>Create Account</h2>
+    <p>Join Bean Boutique for exclusive perks.</p>
+    <form id="registerAccountForm">
+      <input type="text" id="regName" placeholder="Full Name" required>
+      <input type="email" id="regEmail" placeholder="Email Address" required>
+      <input type="password" id="regPassword" placeholder="Create Password" required>
+      <button type="submit" class="register-btn" style="width: 100%; margin-top: 15px;">Sign Up</button>
+    </form>
+    <p style="margin-top: 20px; font-size: 14px; color: #555;">
+      Already have an account? <a href="#" onclick="openLoginPopup(); closeRegisterPopup();" style="color: #E07A5F; font-weight: bold; text-decoration: none;">Login here</a>
+    </p>
+  </div>
+</div>
+
+<footer>
+    <p>© 2026 Bean boutique • LONDON • Made with love & great beans</p>
+</footer>
+
+<script>
+// --- Premium Flash Message Function ---
+function showFlashMessage(message, type = 'success') {
+  let container = document.getElementById('toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  const icon = type === 'success' ? '✅' : '⚠️';
+  toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400); 
+  }, 3500);
+}
+
+// --- Preloader & Sequence Logic ---
+window.onload = function() {
+  // 1. Keep the loader on screen for 1.5 seconds so people can see the animation
+  setTimeout(function() {
+    const preloader = document.getElementById('preloader');
+    preloader.style.opacity = '0'; // Fade it out smoothly
+    
+    // 2. Remove it from the layout entirely after it fades
+    setTimeout(function() {
+      preloader.style.display = 'none';
+      
+      // 3. Wait 1 MORE second after the website is visible, THEN show the promo popup
+      setTimeout(function() {
+        document.getElementById("popup").style.display = "flex";
+      }, 1000);
+
+    }, 600); // 0.6s matches the CSS transition time
+  }, 1500);
+}
+
+// --- Popup Visibility Controls ---
+function closePopup() { document.getElementById("popup").style.display = "none"; }
+function openLoginPopup() { document.getElementById("loginPopup").style.display = "flex"; }
+function closeLoginPopup() { document.getElementById("loginPopup").style.display = "none"; }
+function openRegisterPopup() { document.getElementById("registerPopup").style.display = "flex"; }
+function closeRegisterPopup() { document.getElementById("registerPopup").style.display = "none"; }
+
+window.onclick = function(event) {
+  if (event.target === document.getElementById("popup")) closePopup();
+  if (event.target === document.getElementById("loginPopup")) closeLoginPopup();
+  if (event.target === document.getElementById("registerPopup")) closeRegisterPopup();
+}
+
+// --- Form Handlers ---
+document.getElementById("promoForm").addEventListener("submit", function(e) {
+  e.preventDefault(); 
+  document.getElementById("promoSuccessMsg").style.display = "block";
+  setTimeout(function() {
+    closePopup();
+    document.getElementById("promoForm").reset();
+    document.getElementById("promoSuccessMsg").style.display = "none";
+  }, 1500);
+});
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+  e.preventDefault(); 
+  let email = document.getElementById("loginEmail").value;
+  localStorage.setItem('beanBoutiqueUser', email);
+  closeLoginPopup();
+  document.getElementById("loginForm").reset();
+  showFlashMessage(`Welcome back, ${email}!`, 'success');
+  checkLoginState();
+});
+
+document.getElementById("registerAccountForm").addEventListener("submit", function(e) {
+  e.preventDefault(); 
+  let name = document.getElementById("regName").value;
+  let email = document.getElementById("regEmail").value;
+  localStorage.setItem('beanBoutiqueUser', email);
+  closeRegisterPopup();
+  document.getElementById("registerAccountForm").reset();
+  showFlashMessage(`Account created! Welcome, ${name}!`, 'success');
+  checkLoginState();
+});
+
+// --- User Session & Cart Logic ---
+document.addEventListener("DOMContentLoaded", function() {
+  let cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+  let countElement = document.getElementById('cart-count');
+  if (countElement) {
+    countElement.innerText = cart.length;
+  }
+  checkLoginState();
+});
+
+function checkLoginState() {
+  let user = localStorage.getItem('beanBoutiqueUser');
+  let authButtons = document.getElementById('auth-buttons');
+  let myAccountBtn = document.getElementById('my-account-btn');
+
+  if (user) {
+    authButtons.style.display = 'none';
+    myAccountBtn.style.display = 'inline-block';
+  } else {
+    authButtons.style.display = 'inline-block';
+    myAccountBtn.style.display = 'none';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('beanBoutiqueUser');
+  showFlashMessage("You have been securely logged out.", "success");
+  checkLoginState();
+}
+</script>
+</body>
+</html>

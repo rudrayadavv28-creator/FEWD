@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart | Bean Boutique</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">Bean Boutique</div>
+  <nav>
+    <a href="coffeehtml1.html">Home</a>
+    <a href="coffee.html">Coffee Selection</a>
+    <a href="brewing.html">Brewing Equipment</a>
+    <a href="shopping.html" class="cart-link">Shopping Cart <span id="cart-count" class="cart-count">0</span></a>
+    <a href="events.html">Events</a>
+    <a href="offer.html">Offers and subs</a>
+  </nav>
+</header>
+
+<section class="hero" style="height:60vh;">
+  <div class="hero-content">
+    <h1>Your Cart</h1>
+    <p>Review your selected items before checkout</p>
+  </div>
+</section>
+
+<section>
+  <h2>Items in Your Cart</h2>
+  <div class="features" id="cart-container">
+     <p style="text-align:center; width:100%;">Loading cart...</p>
+  </div>
+</section>
+
+<section>
+  <h2>Order Summary</h2>
+  <div class="features">
+    <div class="card">
+      <div class="card-content">
+        <h3>Total Amount</h3>
+        <p id="subtotal-display">Subtotal: €0.00</p>
+        <p>Delivery: Free</p>
+        <p><strong id="total-display" style="font-size: 1.2rem; color: #6F4E37;">Total: €0.00</strong></p>
+        <button class="btn" style="width: 100%; margin-top: 15px;" onclick="checkout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Bean Boutique • Made with love & great beans</p>
+</footer>
+
+<script>
+  // Run this when the page loads
+  document.addEventListener("DOMContentLoaded", loadCart);
+
+  // --- Professional Flash Message Function ---
+  function showFlashMessage(message, type = 'success') {
+    // 1. Create a container for messages if it doesn't exist yet
+    let container = document.getElementById('toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toast-container';
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+
+    // 2. Create the actual message box
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    // 3. Set the icon (Green tick for success, Warning sign for error)
+    const icon = type === 'success' ? '✅' : '⚠️';
+    toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+    
+    // 4. Add it to the screen
+    container.appendChild(toast);
+
+    // 5. Animate it in
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    // 6. Remove it automatically after 3.5 seconds
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400); // Wait for the fade-out animation to finish
+    }, 3500);
+  }
+  // -------------------------------------------
+
+  function loadCart() {
+    const cartContainer = document.getElementById("cart-container");
+    const subtotalDisplay = document.getElementById("subtotal-display");
+    const totalDisplay = document.getElementById("total-display");
+    
+    let cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+    
+    if (cart.length === 0) {
+      cartContainer.innerHTML = "<p style='text-align:center; width:100%;'>Your cart is currently empty. Go grab some beans!</p>";
+      subtotalDisplay.innerText = "Subtotal: €0.00";
+      totalDisplay.innerText = "Total: €0.00";
+      return;
+    }
+
+    let total = 0;
+    cartContainer.innerHTML = ""; 
+    
+    cart.forEach((item, index) => {
+      total += item.price;
+      cartContainer.innerHTML += `
+        <div class="card">
+          <img src="${item.image}" alt="${item.name}">
+          <div class="card-content">
+            <h3>${item.name}</h3>
+            <p>Quantity: 1</p>
+            <p><strong>Price: €${item.price.toFixed(2)}</strong></p>
+            <button class="btn" style="background: #e74c3c; padding: 8px 15px; margin-top: 10px;" onclick="removeItem(${index})">Remove</button>
+          </div>
+        </div>
+      `;
+    });
+
+    subtotalDisplay.innerText = `Subtotal: €${total.toFixed(2)}`;
+    totalDisplay.innerText = `Total: €${total.toFixed(2)}`;
+  }
+
+  function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+    let removedItemName = cart[index].name;
+    
+    cart.splice(index, 1); 
+    localStorage.setItem('beanBoutiqueCart', JSON.stringify(cart));
+    loadCart(); 
+    
+    // Show a professional success message when an item is removed
+    showFlashMessage(`${removedItemName} removed from cart.`, 'success');
+  }
+
+  function checkout() {
+    let cart = JSON.parse(localStorage.getItem('beanBoutiqueCart')) || [];
+    if (cart.length === 0) {
+      // Show the red warning flash message instead of the ugly alert
+      showFlashMessage("Your cart is empty! Add some items first.", "error");
+      return;
+    }
+    
+    // Show the green success flash message instead of the ugly alert
+    showFlashMessage("Order Successful! Your items are on the way.", "success");
+    
+    localStorage.removeItem('beanBoutiqueCart');
+    
+    // Slight delay before refreshing the cart so the user has time to read the success message
+    setTimeout(() => {
+      loadCart(); 
+    }, 1500);
+  }
+</script>
+
+
+</body>
+</html>
